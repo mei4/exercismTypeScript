@@ -6,10 +6,9 @@ class Words {
 
 	count(sentence: string) {
 		
-		const words = this.splitSentence(sentence.toLowerCase())
 		const occurrences = new Map<string, number>()
 		
-		for (const word of words) {
+		for (const word of this.getWords(sentence)) {
 			const occurrencesCount = occurrences.get(word)
 			occurrences.set(word, (occurrencesCount ?? 0) + 1)
 		}
@@ -17,10 +16,10 @@ class Words {
 		return occurrences
 	}
 
-	private splitSentence(sentence: string): string[] {
+	private getWords(sentence: string): string[] {
 		const splitCriteria = `${TAB}|${MULTILINE}|${SPACES}`
 		
-		return sentence.trim().split(new RegExp(splitCriteria))
+		return sentence.toLowerCase().trim().split(new RegExp(splitCriteria))
 	}
 }
 
