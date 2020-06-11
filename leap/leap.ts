@@ -1,5 +1,9 @@
 function isLeapYear(year: number) {
-    return year%4 === 0 && (year%100 !== 0 || year%400 === 0)
+    const yearEnhanced = {
+        isDivisibleBy: (n: number) => { return year%n === 0 }
+    }
+    
+    return yearEnhanced.isDivisibleBy(4) && (!yearEnhanced.isDivisibleBy(100) || yearEnhanced.isDivisibleBy(400))
 }
 
 export default isLeapYear
