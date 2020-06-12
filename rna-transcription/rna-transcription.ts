@@ -19,8 +19,12 @@ class Transcriptor {
     }
 
     private transcribe = (value: string): RNA => {
-      if (!['A', 'C', 'G', 'T'].includes(value)) throw new Error('Invalid input DNA.')
-      return DNAtoRNA[value as DNA]
+      if (this.isDNA(value)) return DNAtoRNA[value]
+      throw new Error('Invalid input DNA.')
+    }
+
+    private isDNA(value: string | DNA): value is DNA {
+      return DNAtoRNA[value as DNA] !== undefined
     }
 }
 
