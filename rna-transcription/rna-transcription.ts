@@ -1,23 +1,26 @@
 
-const NucleotidesComplements = {
+const DNAtoRNA = {
     'A': 'U',
     'C': 'G',
     'G': 'C',
     'T': 'A'
-}
+} as const
 
-type Nucleotide = keyof typeof NucleotidesComplements
+type DNA = keyof typeof DNAtoRNA
+
+type RNA = typeof DNAtoRNA[DNA]
+
 
 class Transcriptor {
 
-    toRna(nucleotides: string) {
-      const result = [...nucleotides].reduce((acc, val) => acc += this.transcribe(val), '')
-      return result
+    toRna(nucleotides: string): string {
+      if (nucleotides.length == 0) return ''
+      else return this.transcribe(nucleotides.charAt(0)) + this.toRna(nucleotides.substr(1))
     }
 
-    private transcribe = (value: string): string => {
-      if (value !== 'A' && value !== 'C' && value !== 'G' && value !== 'T') throw new Error('Invalid input DNA.')
-      return NucleotidesComplements[value]
+    private transcribe = (value: string): RNA => {
+      if (!['A', 'C', 'G', 'T'].includes(value)) throw new Error('Invalid input DNA.')
+      return DNAtoRNA[value as DNA]
     }
 }
 
