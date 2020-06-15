@@ -1,9 +1,9 @@
 
 const DNAtoRNA = {
-    'A': 'U',
-    'C': 'G',
-    'G': 'C',
-    'T': 'A'
+  'A': 'U',
+  'C': 'G',
+  'G': 'C',
+  'T': 'A'
 } as const
 
 type DNA = keyof typeof DNAtoRNA
@@ -13,19 +13,14 @@ type RNA = typeof DNAtoRNA[DNA]
 
 class Transcriptor {
 
-    toRna(nucleotides: string): string {
-      if (nucleotides.length == 0) return ''
-      else return this.transcribe(nucleotides.charAt(0)) + this.toRna(nucleotides.substr(1))
+  toRna(nucleotides: string): string {
+    if (nucleotides.match(new RegExp('[^A|G|T|C]'))) throw new Error('Invalid input DNA.')
+    let dna: DNA
+    for (dna in DNAtoRNA) {
+      nucleotides = nucleotides.replace(new RegExp(dna, 'g'), DNAtoRNA[dna].toLowerCase())
     }
-
-    private transcribe = (value: string): RNA => {
-      if (this.isDNA(value)) return DNAtoRNA[value]
-      throw new Error('Invalid input DNA.')
-    }
-
-    private isDNA(value: string | DNA): value is DNA {
-      return DNAtoRNA[value as DNA] !== undefined
-    }
+    return nucleotides.toUpperCase()
+  }
 }
 
 export default Transcriptor
