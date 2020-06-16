@@ -1,3 +1,4 @@
+import { off } from "process"
 
 const DNAtoRNA = {
   'A': 'U',
@@ -15,11 +16,10 @@ class Transcriptor {
 
   toRna(nucleotides: string): string {
     if (nucleotides.match(new RegExp('[^A|G|T|C]'))) throw new Error('Invalid input DNA.')
-    let dna: DNA
-    for (dna in DNAtoRNA) {
-      nucleotides = nucleotides.replace(new RegExp(dna, 'g'), DNAtoRNA[dna].toLowerCase())
-    }
-    return nucleotides.toUpperCase()
+    
+    const replacer = (match: string): RNA => { return DNAtoRNA[match as DNA] }
+    
+    return nucleotides.replace(/A|G|T|C/g, replacer)
   }
 }
 
